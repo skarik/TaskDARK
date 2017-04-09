@@ -1,6 +1,6 @@
 <?php
-// Include bug info
 require_once __DIR__ . "/taskstructure.php";
+require_once __DIR__ . "/../include/Parsedown.php";
 
 class DarkTasklist
 {
@@ -222,13 +222,15 @@ class DarkTasklist
 		}
 
 		// echo output
+        $Parsedown = new Parsedown();
 		echo(
 			'<div class="detail-container">' .
 				'<div class="detail-heading" id="info-title">' .
 					$task->title .
 				'</div>' .
 				'<div class="detail-info" id="info-description">' .
-					nl2br($task->description) .
+					//nl2br($task->description) .
+                    $Parsedown->text($task->description) .
 					'<a href="#" onclick="return taskChangeDescription('.$id.')">' .
 					'<div class="detail-button">' .
 						"(change)" .
@@ -393,7 +395,7 @@ class DarkTasklist
 			"<div class=\"list-item\">" .
 				'<span class="list-item-title"><span class="list-header">Title</span></span>' .
 				'<span class="list-item-project"><span class="list-header">Project</span></span>' .
-				'<span class="list-item-description"><span class="list-header">Description</span></span>' .
+				//'<span class="list-item-description"><span class="list-header">Description</span></span>' .
 				'<span class="list-item-status"><span class="list-header">Status</span></span>' .
 				'<span class="list-item-status"><span class="list-header">Delayed</span></span>' .
 				'<span class="list-item-date"><span class="list-header">Start Date</span></span>' .
@@ -489,7 +491,7 @@ class DarkTasklist
                     '<div class="list-item" ' . $itemProperties . ' >' .
                         "<span class=\"list-item-title\">" . strip_tags( $task->title, '<b><i>' ) . "</span>" .
                         "<span class=\"list-item-project\">" . $task->project . "</span>" .
-                        "<span class=\"list-item-description\">" . strip_tags( $task->description, '<b><i>' ) . "</span>" .
+                        //"<span class=\"list-item-description\">" . strip_tags( $task->description,'<b><i>') . "</span>" .
                         '<span class="list-item-status" status="'.$task->status.'">' . $statusString . '</span>' .
                         "<span class=\"list-item-status\">" . $delayString . "</span>" .
                         "<span class=\"list-item-date\">" . date("Y-m-d",$task->startdate) . "</span>" .

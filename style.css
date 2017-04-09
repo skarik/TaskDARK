@@ -451,7 +451,7 @@ a:hover
 }
 .list-item-title
 {
-	width: 16%;
+	width: 30%;
 	display: inline-block;
 
 	overflow: hidden;
@@ -542,17 +542,17 @@ a:hover
 /*===============================================================================================*/
 /* Input view styling */
 /*===============================================================================================*/
-textarea, select
+textarea, select, input+label
 {
 	border-style: solid;
 	border-width: 1px;
 	border-color: #AAA;
 }
-textarea:hover, select:hover
+textarea:hover, select:hover, input+label:hover
 {
 	border-color: #9CF;
 }
-textarea:focus, select:focus
+textarea:focus, select:focus, input+label:focus
 {
 	outline-style: solid;
 	outline-width: 2px;
@@ -566,11 +566,25 @@ textarea:focus, select:focus
 {
 
 }
+.input-box-row
+{
+	display: flex;
+	flex-wrap: nowrap;
+	justify-content: flex-start;
+
+}
+.input-box-row-block
+{
+	display: inline-block;
+	margin-right: 1.0em;
+}
+
 .input-box-heading
 {
 	margin-top: 0.5em;
 	font-weight: bold;
 }
+
 .input-box-oneline
 {
 	font-family: pageFont-default, Verdana, sans-serif;
@@ -595,6 +609,43 @@ textarea:focus, select:focus
 	width: 100%;
 	padding: 0.25em 4px;
 }
+
+.input-box-checkbox
+{
+	display: none;
+}
+.input-box-checkbox + label
+{
+	padding: 9px;
+	display: inline-block;
+	position: relative;
+	text-transform: uppercase;
+
+	padding: 1.25em;
+}
+.input-box-checkbox + label:active, .input-box-checkbox:checked + label:active
+{
+	outline-style: solid;
+	outline-width: 2px;
+	outline-color: #9CF;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #9CF;
+}
+.input-box-checkbox:checked + label
+{
+	background-color: #CCE6FF;
+}
+.input-box-checkbox:checked + label:after
+{
+	content: '\2714';
+	font-size: 1.8em;
+	position: absolute;
+	top: 0px;
+	left: 0.25em;
+	color: black;
+}
+
 
 .input-box-submit
 {

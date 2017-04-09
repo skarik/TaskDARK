@@ -60,7 +60,7 @@ function navigateToTask ( taskId )
 	}
 	ajaxRequest.open( "GET", "./requests/indexquery.php?page=tasks", true );
 	ajaxRequest.send();
-	
+
 	return false;
 }
 
@@ -77,11 +77,6 @@ function bugListingExpand ( bugId )
 function bugShowNewPanel ( )
 {
 	ajaxRequestSubMainContent( "./requests/bugquery.php?cmd=showbug_add_panel" );
-	return false;
-}
-function bugSendChangeStatus ( bugId, status )
-{
-	ajaxRequestSubMainContent( "./requests/bugquery.php?cmd=change_bug_status&id="+bugId+"&status="+status );
 	return false;
 }
 function ajaxRequestSubMainContent ( request )
@@ -103,7 +98,7 @@ function ajaxRequestSubMainContent ( request )
 function bugChangeDescription ( bugId )
 {
 	var m_tempContent = document.getElementById( "info-description" );
-	
+
 	var ajaxRequest = new XMLHttpRequest();
 	ajaxRequest.onreadystatechange = function() {
 		if ( ajaxRequest.readyState == 4 && ajaxRequest.status == 200 ) {
@@ -112,14 +107,14 @@ function bugChangeDescription ( bugId )
 	}
 	ajaxRequest.open( "GET", "./requests/bugquery.php?cmd=change_description_panel&id="+bugId, true );
 	ajaxRequest.send();
-	
+
 	return false;
 }
 // Send request for status change panel
 function bugChangeStatus ( bugId )
 {
 	var m_tempContent = document.getElementById( "info-status" );
-	
+
 	var ajaxRequest = new XMLHttpRequest();
 	ajaxRequest.onreadystatechange = function() {
 		if ( ajaxRequest.readyState == 4 && ajaxRequest.status == 200 ) {
@@ -128,7 +123,39 @@ function bugChangeStatus ( bugId )
 	}
 	ajaxRequest.open( "GET", "./requests/bugquery.php?cmd=change_status_panel&id="+bugId, true );
 	ajaxRequest.send();
-	
+
+	return false;
+}
+// Send request for severity change panel
+function bugChangeSeverity ( bugId )
+{
+	var m_tempContent = document.getElementById( "info-severity" );
+
+	var ajaxRequest = new XMLHttpRequest();
+	ajaxRequest.onreadystatechange = function() {
+		if ( ajaxRequest.readyState == 4 && ajaxRequest.status == 200 ) {
+			m_tempContent.innerHTML = ajaxRequest.responseText;
+		}
+	}
+	ajaxRequest.open( "GET", "./requests/bugquery.php?cmd=change_severity_panel&id="+bugId, true );
+	ajaxRequest.send();
+
+	return false;
+}
+// Send request for priority change panel
+function bugChangePriority ( bugId )
+{
+	var m_tempContent = document.getElementById( "info-priority" );
+
+	var ajaxRequest = new XMLHttpRequest();
+	ajaxRequest.onreadystatechange = function() {
+		if ( ajaxRequest.readyState == 4 && ajaxRequest.status == 200 ) {
+			m_tempContent.innerHTML = ajaxRequest.responseText;
+		}
+	}
+	ajaxRequest.open( "GET", "./requests/bugquery.php?cmd=change_priority_panel&id="+bugId, true );
+	ajaxRequest.send();
+
 	return false;
 }
 
@@ -138,11 +165,15 @@ function bugNewBug ( )
 	ajaxBugNewSend(
 		encodeURIComponent(document.getElementById("input-title").value),
 		encodeURIComponent(document.getElementById("input-description").value),
-		encodeURIComponent(document.getElementById("input-project").value)
+		encodeURIComponent(document.getElementById("input-project").value),
+		encodeURIComponent(document.getElementById("input-severity").value),
+		encodeURIComponent(document.getElementById("input-priority").value),
+		encodeURIComponent(document.getElementById("input-entertaining").checked.toString()),
+		encodeURIComponent(document.getElementById("input-assignee").value),
 		);
 	return false;
 }
-function ajaxBugNewSend ( title, description, project )
+function ajaxBugNewSend ( title, description, project, severity, priority, entertaining, assignee )
 {	// SO EASY TO BREAK
 	// WHERE IS THE SECURITY? NOWHERE LOL
 	var ajaxRequest = new XMLHttpRequest();
@@ -154,15 +185,22 @@ function ajaxBugNewSend ( title, description, project )
 	}
 	ajaxRequest.open( "POST", "./requests/bugquery.php", true );
 	ajaxRequest.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-	ajaxRequest.send("cmd=addbug&title="+title+"&description="+description+"&project="+project);
+	ajaxRequest.send(
+        "cmd=addbug&title="+title+"&description="+description+"&project="+project+
+        "&severity="+severity+"&priority="+priority+"&entertaining="+entertaining+"&assignee="+assignee);
 }
 
 // send changed description
+function bugSendChangeStatus ( bugId, status )
+{
+	ajaxRequestSubMainContent( "./requests/bugquery.php?cmd=change_bug_status&id="+bugId+"&status="+status );
+	return false;
+}
 function bugSendChangeDescription ( bugId )
 {
 	m_submaincontent = document.getElementById( "submain-content" );
 	var m_description = encodeURIComponent(document.getElementById("input-description").value);
-	
+
 	var ajaxRequest = new XMLHttpRequest();
 	ajaxRequest.onreadystatechange = function() {
 		if ( ajaxRequest.readyState == 4 && ajaxRequest.status == 200 ) {
@@ -172,9 +210,20 @@ function bugSendChangeDescription ( bugId )
 	ajaxRequest.open( "POST", "./requests/bugquery.php", true );
 	ajaxRequest.setRequestHeader("Content-type","application/x-www-form-urlencoded");
 	ajaxRequest.send("cmd=change_bug_description&id="+bugId+"&description="+m_description);
-	
+
 	return false;
 }
+function bugSendChangePriority ( bugId, priority )
+{
+	ajaxRequestSubMainContent( "./requests/bugquery.php?cmd=change_bug_priority&id="+bugId+"&priority="+priority );
+	return false;
+}
+function bugSendChangeSeverity ( bugId, severity )
+{
+	ajaxRequestSubMainContent( "./requests/bugquery.php?cmd=change_bug_severity&id="+bugId+"&severity="+severity );
+	return false;
+}
+
 
 //===============================================================================================//
 // Idea listing
@@ -200,7 +249,7 @@ function ideaSendChangeStatus ( ideaId, status )
 function ideaChangeDescription ( bugId )
 {
 	var m_tempContent = document.getElementById( "info-description" );
-	
+
 	var ajaxRequest = new XMLHttpRequest();
 	ajaxRequest.onreadystatechange = function() {
 		if ( ajaxRequest.readyState == 4 && ajaxRequest.status == 200 ) {
@@ -209,14 +258,14 @@ function ideaChangeDescription ( bugId )
 	}
 	ajaxRequest.open( "GET", "./requests/ideaquery.php?cmd=change_description_panel&id="+bugId, true );
 	ajaxRequest.send();
-	
+
 	return false;
 }
 // Send request for status change panel
 function ideaChangeStatus ( bugId )
 {
 	var m_tempContent = document.getElementById( "info-status" );
-	
+
 	var ajaxRequest = new XMLHttpRequest();
 	ajaxRequest.onreadystatechange = function() {
 		if ( ajaxRequest.readyState == 4 && ajaxRequest.status == 200 ) {
@@ -225,7 +274,7 @@ function ideaChangeStatus ( bugId )
 	}
 	ajaxRequest.open( "GET", "./requests/ideaquery.php?cmd=change_status_panel&id="+bugId, true );
 	ajaxRequest.send();
-	
+
 	return false;
 }
 
@@ -259,7 +308,7 @@ function ideaSendChangeDescription ( bugId )
 {
 	m_submaincontent = document.getElementById( "submain-content" );
 	var m_description = encodeURIComponent(document.getElementById("input-description").value);
-	
+
 	var ajaxRequest = new XMLHttpRequest();
 	ajaxRequest.onreadystatechange = function() {
 		if ( ajaxRequest.readyState == 4 && ajaxRequest.status == 200 ) {
@@ -269,7 +318,7 @@ function ideaSendChangeDescription ( bugId )
 	ajaxRequest.open( "POST", "./requests/ideaquery.php", true );
 	ajaxRequest.setRequestHeader("Content-type","application/x-www-form-urlencoded");
 	ajaxRequest.send("cmd=change_idea_description&id="+bugId+"&description="+m_description);
-	
+
 	return false;
 }
 
@@ -294,13 +343,13 @@ function taskNewTask ( )
 	cmd =
 		"cmd=addtask&title=" +
 		encodeURIComponent(document.getElementById("input-title").value) +
-		"&description=" + 
+		"&description=" +
 		encodeURIComponent(document.getElementById("input-description").value) +
 		"&project=" +
 		encodeURIComponent(document.getElementById("input-project").value) +
 		"&endtime=" +
 		((new Date(document.getElementById("input-date").value)).getTime()/1000 + (12 * 60 * 60));
-		
+
 	ajaxRequestSubMainContentPost( "./requests/taskquery.php", cmd, "showTasks" );
 	return false;
 }

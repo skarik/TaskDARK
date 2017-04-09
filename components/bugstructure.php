@@ -5,23 +5,39 @@
 //===============================================================================================//
 class DarkBug
 {
+    public $id;
+
 	public $title;
 	public $project;
 	public $description;
 	public $status;
-	public $history;
-	public $id;
+
+    public $severity;       // How severe does this bug impact shit?
+    public $priority;       // How important is it to fix this bug?
+    public $entertaining;   // Is this bug entertaining to reccreate?
+    public $reporter;       // User who created the bug
+    public $assignee;       // User who has started the terrible task to fix the bug
+
+    public $history;
 
 	//=========================================//
 	// Construct
 	function __construct ()
 	{
+        $this->id			= -1;
+
 		$this->title		= "Title";
 		$this->project		= "AFTER";
 		$this->description	= "";
 		$this->status		= 0;
-		$this->history		= Array();
-		$this->id			= -1;
+
+        $this->severity     = 0;
+        $this->priority     = 1;
+        $this->entertaining = false;
+        $this->reporter     = "";
+        $this->assignee     = "";
+
+        $this->history		= Array();
 	}
 }
 
@@ -44,9 +60,30 @@ class DarkBuglistIO
 			else if ( $bug->id >= $lastId ) {
 				$lastId = $bug->id + 1;
 			}
+            // set project
 			if ( !isset( $bug->project ) ) {
 				$bug->project = "AFTER";
 			}
+            // set severity
+            if ( !isset( $bug->severity ) ) {
+                $bug->severity = 0;
+            }
+            // set priority
+            if ( !isset( $bug->priority ) ) {
+                $bug->priority = 1;
+            }
+            // set entertaining
+            if ( !isset( $bug->entertaining ) ) {
+                $bug->entertaining = false;
+            }
+            // set reporter
+            if ( !isset( $bug->reporter ) ) {
+                $bug->reporter = "Unknown";
+            }
+            // set assignee
+            if ( !isset( $bug->assignee ) ) {
+                $bug->assignee = "";
+            }
 		}
 	}
 

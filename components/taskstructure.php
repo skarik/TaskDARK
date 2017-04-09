@@ -7,10 +7,12 @@
 class DarkTask
 {
 	public $id;
+
 	public $title;
 	public $project;
 	public $description;
 	public $status;
+
 	public $startdate;
 	public $enddate;
 	public $delays;
@@ -21,13 +23,16 @@ class DarkTask
 	function __construct ()
 	{
 		$this->id = -1;
+
 		$this->title = "Title";
 		$this->project = "AFTER";
 		$this->description = "";
 		$this->status = 0;
+
 		$this->startdate = time();
 		$this->enddate = time() + (7 * 24 * 60 * 60); // default to a week away
 		$this->delays = 0;
+
 		$this->owner = "";
 	}
 }
@@ -55,6 +60,10 @@ class DarkTasklistIO
 			// set project
 			if ( !isset( $task->project ) ) {
 				$task->project = "AFTER";
+			}
+            // set owner
+			if ( !isset( $task->owner ) ) {
+				$task->owner = "";
 			}
 		}
 	}
