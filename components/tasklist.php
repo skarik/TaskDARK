@@ -69,6 +69,18 @@ class DarkTasklist
 		$this->Save();
 	}
 
+    public function AddTaskObject ( $task )
+    {
+        $this->Init(); // Load up the task list
+		echo( 'SAVING: task "' . $title . '"' );
+
+        // push it to the tasklist
+		array_push( $this->tasklist, $task );
+
+        // save it
+		$this->Save();
+    }
+
 	//=========================================//
 	//	DarkTask GetTask ( id )
 	// Returns first task with matching ID
@@ -400,6 +412,7 @@ class DarkTasklist
 				'<span class="list-item-status"><span class="list-header">Delayed</span></span>' .
 				'<span class="list-item-date"><span class="list-header">Start Date</span></span>' .
 				'<span class="list-item-date"><span class="list-header">End Date</span></span>' .
+				'<span class="list-item-status"><span class="list-header">Created by</span></span>' .
 			"</div>" );
 		for ( $lateMode = 0; $lateMode <= 3; $lateMode += 1 )
 		{
@@ -496,6 +509,7 @@ class DarkTasklist
                         "<span class=\"list-item-status\">" . $delayString . "</span>" .
                         "<span class=\"list-item-date\">" . date("Y-m-d",$task->startdate) . "</span>" .
                         "<span class=\"list-item-date\">" . date("Y-m-d",$task->enddate) . "</span>" .
+                        "<span class=\"list-item-status\">" . $task->owner . "</span>" .
                     "</div>" .
                 "</a>"
             );

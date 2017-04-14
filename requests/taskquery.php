@@ -48,13 +48,24 @@ case "panel_changeenddate":
 		$tasks->BuildPanelDatepush( $taskId );
 	}
 	break;
-	
+
 default:
 switch ( $_POST["cmd"] ) {
 	case "addtask":
 		{
 			$tasks = new DarkTasklist();
-			$tasks->AddTask( $_POST["title"], $_POST["description"], $_POST["project"], $_POST["endtime"] );
+			//$tasks->AddTask( $_POST["title"], $_POST["description"], $_POST["project"], $_POST["endtime"] );
+
+            // create new task
+            $task = new DarkTask();
+            $task->title        = $_POST["title"];
+            $task->project      = $_POST["project"];
+            $task->description  = htmlspecialchars($_POST["description"]);
+            $task->enddate      = $_POST["endtime"];
+            $task->owner        = $_SERVER['REMOTE_USER'];
+
+            // Add it to the list
+            $tasks->AddTaskObject( $task );
 		}
 		break;
 	case "status":
